@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.*;
 
 public class DB_Mediator {
 	
@@ -99,7 +100,7 @@ public class DB_Mediator {
 	public Eminem saveEminem()
 	{
 	
-		Eminem e = null;
+		Eminem em = null;
 		ArrayList<Table> arrTable = new ArrayList<Table>();
 		try{
 		
@@ -107,24 +108,24 @@ public class DB_Mediator {
 			ArrayList<Row> MMrows = new ArrayList<Row>();
 			while(rs.next())
 			{
-				String s[] = new String[]{re.getString("id"), rs.getString("price"), rs.getString("quantity"), rs.getString("size"), rs.getString("net_weight"), rs.getString("kind")};
+				String s[] = new String[]{rs.getString("id"), ""+rs.getFloat("price"),""+rs.getInt("quantity"), rs.getString("size"), ""+rs.getFloat("net_weight"), rs.getString("kind")};
 				MMrows.add(new Row(s));
 			}
 			
-			arrTable.add(new Table("MM",MMrows));
+			arrTable.add(new Table("MMPack",MMrows));
 			
 			rs = search("SELECT * FROM Sales");
 			ArrayList<Row> SalesRows = new ArrayList<Row>();
 			while(rs.next())
 			{
-				String s[] = new String[]{re.getString("country"), rs.getString("profit")};
+				String s[] = new String[]{rs.getString("country"), ""+rs.getFloat("profit")};
 				SalesRows.add(new Row(s));
 			}
 			
 			arrTable.add(new Table("Sales",SalesRows));
 			
-			e = new Eminem(arrTable);
-			
+			em = new Eminem(arrTable);
+			System.out.println("Saved");
 		
 		} catch(Exception e)
 		{
@@ -132,10 +133,10 @@ public class DB_Mediator {
 			e.printStackTrace();
 		}
 		
-		return e;
+		return em;
 	}
 	
-	public void importState(Eminem b)
+	public void saveDatabase(Eminem b)
 	{
 	
 		clearAllTables();
@@ -143,18 +144,19 @@ public class DB_Mediator {
 		for(String s : b.names)
 		{
 		
-			Table t = b.get(s);
+			Table t = b.tables.get(s);
+			String update="";
 			
 			if(s.equals("MMPack"))
 				{
 				
-				String update = "INSERT INTO " + s + "(`id`,`price`,`quantity`,`size`,`net_weight`,`kind`) VALUES ";
+				update += "INSERT INTO " + s + "(`id`,`price`,`quantity`,`size`,`net_weight`,`kind`) VALUES ";
 				int len = t.rows.size();
 				
 				for(int i = 0; i< len; i++)
 				{
-				
-					update +="('"+r.get(0)+"','"+r.get(1)+"','"+r.get(2)+"','"+r.get(3)+"','"+r.get(4)+"','"+r.get(5)+"')";
+					Row r = t.rows.get(i);
+					update +="('"+r.columns.get(0)+"','"+r.columns.get(1)+"','"+r.columns.get(2)+"','"+r.columns.get(3)+"','"+r.columns.get(4)+"','"+r.columns.get(5)+"')";
 					
 					if(i != len-1)
 					{
@@ -168,13 +170,13 @@ public class DB_Mediator {
 				} else
 				{
 					
-					String update = "INSERT INTO " + s + "(`country`,`profit`) VALUES ";
+					update += "INSERT INTO " + s + "(`country`,`profit`) VALUES ";
 					int len = t.rows.size();
 					
 					for(int i = 0; i< len; i++)
 					{					
-					
-					update +="('"+r.get(0)+"','"+r.get(1)+"')";
+					Row r = t.rows.get(i);
+					update +="('"+r.columns.get(0)+"','"+r.columns.get(1)+"')";
 					
 					if(i != len-1)
 					{

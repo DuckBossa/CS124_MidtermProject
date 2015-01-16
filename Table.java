@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Table {
 
 	ArrayList<Row> rows;

@@ -1,10 +1,12 @@
+import java.util.*;
+
 public class Eminem {
 
 	HashMap<String, Table> tables;
 	ArrayList<String> names;
 	
 	public Eminem (ArrayList<Table> t) {
-		tables = new Hashmap<String, Table>();
+		tables = new HashMap<String, Table>();
 		names = new ArrayList<String>();
 		for (int i=0; i<t.size(); i++) {
 			tables.put(t.get(i).name, t.get(i));
