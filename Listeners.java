@@ -32,7 +32,7 @@ class ExportButton implements ActionListener {
 
 class AddRow implements ActionListener {
 	public void actionPerformed (ActionEvent ae) {
-		moves.add(database); //add current database to stack before changing it
+		moves.add(database); //database is current Eminem, add current database to stack before changing it
 		if (dropdown.hasChosen("MM Pack")) { //choosing the table
 			String id = idField.getText();
 			String price = priceField.getText();
@@ -69,26 +69,12 @@ class EditRow implements ActionListener {
 			String size = sizeField.getText();
 			String net_weight = netField.getText();
 			String kind = kindField.getText();
-
-			//checking for the row in mmpack
-			for (int i=0; i<mmpack.rows.size(); i++) {
-				if (mmpack.rows.get(i).id.equals(id)) {
-					mmpack.set(i, new Row(new String(){id, price, quantity, size, net_weight, kind}));
-					break;
-				}
-			}
+			database.editRow(database.tables.get("MM Pack"), new Row(new String[]{id, price, quantity, size, net_weight, kind}));
 		}
 		else if (dropdown.hasChosen("Sales")) {
 			String country = countryField.getText();
 			String profit = profitField.getText();
-
-			//checking for the row in sales
-			for (int i=0; i<sales.rows.size(); i++) {
-				if (sales.rows.get(i).country.equals(country)) {
-					sales.set(i, new Row(new String(){country, profit}));
-					break;
-				}
-			}
+			database.editRow(database.tables.get("Sales"), new Row(new String[]{country, profit}));
 		}
 		showInfo(database);
 	}
@@ -99,31 +85,11 @@ class DeleteRow implements ActionListener {
 		moves.add(database); //add current database to stack before changing it
 		if (dropdown.hasChosen("MM Pack")) { //choosing the table
 			String id = idField.getText();
-			String price = priceField.getText();
-			String quantity = quantityField.getText();
-			String size = sizeField.getText();
-			String net_weight = netField.getText();
-			String kind = kindField.getText();
-
-			//checking for the row in mmpack
-			for (int i=0; i<mmpack.rows.size(); i++) {
-				if (mmpack.rows.get(i).id.equals(id)) {
-					mmpack.set(i, null);
-					break;
-				}
-			}
+			database.deleteRow(database.tables.get("MM Pack"), id);
 		}
 		else if (dropdown.hasChosen("Sales")) {
 			String country = countryField.getText();
-			String profit = profitField.getText();
-
-			//checking for the row in sales
-			for (int i=0; i<sales.rows.size(); i++) {
-				if (sales.rows.get(i).country.equals(country)) {
-					sales.set(i, null);
-					break;
-				}
-			}
+			database.editRow(database.tables.get("Sales"), country);
 		}
 		showInfo(database);
 	}
