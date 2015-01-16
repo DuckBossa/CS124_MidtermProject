@@ -1,6 +1,6 @@
 class Memento {
 	HashMap<String, ArrayList<Table>> tables;
-	public Eminem (HashMap<String, ArrayList<Table>> t) {
+	public Memento (HashMap<String, ArrayList<Table>> t) {
 		setState (t);
 	}
 	public HashMap<String, ArrayList<Table>> getState () {
