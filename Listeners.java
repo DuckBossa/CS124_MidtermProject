@@ -32,7 +32,7 @@ class ExportButton implements ActionListener {
 
 class AddRow implements ActionListener {
 	public void actionPerformed (ActionEvent ae) {
-		moves.add(database); //database is current Eminem, add current database to stack before changing it
+		moves.add(database.createMemento()); //database is current Eminem, add current database to stack before changing it
 		if (dropdown.hasChosen("MM Pack")) { //choosing the table
 			String id = idField.getText();
 			String price = priceField.getText();
@@ -61,7 +61,7 @@ class AddRow implements ActionListener {
 
 class EditRow implements ActionListener {
 	public void actionPerformed (ActionEvent ae) {
-		moves.add(database); //add current database to stack before changing it
+		moves.add(database.createMemento()); //add current database to stack before changing it
 		if (dropdown.hasChosen("MM Pack")) { //choosing the table
 			String id = idField.getText();
 			String price = priceField.getText();
@@ -82,7 +82,7 @@ class EditRow implements ActionListener {
 
 class DeleteRow implements ActionListener {
 	public void actionPerformed (ActionEvent ae) {
-		moves.add(database); //add current database to stack before changing it
+		moves.add(database.createMemento()); //add current database to stack before changing it
 		if (dropdown.hasChosen("MM Pack")) { //choosing the table
 			String id = idField.getText();
 			database.deleteRow(database.tables.get("MM Pack"), id);
@@ -97,10 +97,9 @@ class DeleteRow implements ActionListener {
 
 class ImportVersion implements ActionListener {
 	public void actionPerformed (ActionEvent ae) {
-		Eminem toImport = versions.get(chooser.getSelectedItem());
-		database = toImport;
+		database.setMemento(versions.get(chooser.getSelectedItem()));
 		showInfo(database);
-		moves = new Stack<Eminem>();
+		moves = new Stack<Memento>();
 	}
 }
 
@@ -112,8 +111,9 @@ class ExportVersion implements ActionListener {
 
 class UndoMove implements ActionListener {
 	public void actionPerformed (ActionEvent ae) {
-		Eminem prev = moves.pop(); //moves is the name of the stack, Eminem is the class that represents a database
-		database = prev; //database is the global Eminem variable with the current database information
+		database.setMemento(moves.pop());
+		//database is the global Eminem variable with the current database information
+		//moves is the stack of memento
 		showInfo(database); //method that updates the information on the GUI using info from the Eminem in argument
 	}
 }
@@ -121,6 +121,6 @@ class UndoMove implements ActionListener {
 class SaveChanges implements ActionListener {
 	public void actionPerformed (ActionEvent ae) {
 		databaseMediator.save(database); //using the database mediator, the info in the Eminem variable is saved to the actual database
-		moves = new Stack<Eminem>(); //empties the stack
+		moves = new Stack<Memento>(); //empties the stack
 	}
 }
