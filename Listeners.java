@@ -120,7 +120,7 @@ class UndoMove implements ActionListener {
 
 class SaveChanges implements ActionListener {
 	public void actionPerformed (ActionEvent ae) {
-		databaseMediator.save(database); //using the database mediator, the info in the Eminem variable is saved to the actual database
+		databaseMediator.saveDatabase(database); //using the database mediator, the info in the Eminem variable is saved to the actual database
 		moves = new Stack<Memento>(); //empties the stack
 	}
 }
