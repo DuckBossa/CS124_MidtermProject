@@ -60,7 +60,6 @@ public class DB_Mediator {
 		clearPackTable();
 	}
 	
-	
 	public void establishConnection(String username, String password, 
 	String db)
 	{	
@@ -93,6 +92,101 @@ public class DB_Mediator {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	// import states and save states
+	
+	public Eminem saveEminem()
+	{
+	
+		Eminem e = null;
+		ArrayList<Table> arrTable = new ArrayList<Table>();
+		try{
+		
+			ResultSet rs = search("SELECT * FROM MMPack");
+			ArrayList<Row> MMrows = new ArrayList<Row>();
+			while(rs.next())
+			{
+				String s[] = new String[]{re.getString("id"), rs.getString("price"), rs.getString("quantity"), rs.getString("size"), rs.getString("net_weight"), rs.getString("kind")};
+				MMrows.add(new Row(s));
+			}
+			
+			arrTable.add(new Table("MM",MMrows));
+			
+			rs = search("SELECT * FROM Sales");
+			ArrayList<Row> SalesRows = new ArrayList<Row>();
+			while(rs.next())
+			{
+				String s[] = new String[]{re.getString("country"), rs.getString("profit")};
+				SalesRows.add(new Row(s));
+			}
+			
+			arrTable.add(new Table("Sales",SalesRows));
+			
+			e = new Eminem(arrTable);
+			
+		
+		} catch(Exception e)
+		{
+			System.out.println("failed...");
+			e.printStackTrace();
+		}
+		
+		return e;
+	}
+	
+	public void importState(Eminem b)
+	{
+	
+		clearAllTables();
+		
+		for(String s : b.names)
+		{
+		
+			Table t = b.get(s);
+			
+			if(s.equals("MMPack"))
+				{
+				
+				String update = "INSERT INTO " + s + "(`id`,`price`,`quantity`,`size`,`net_weight`,`kind`) VALUES ";
+				int len = t.rows.size();
+				
+				for(int i = 0; i< len; i++)
+				{
+				
+					update +="('"+r.get(0)+"','"+r.get(1)+"','"+r.get(2)+"','"+r.get(3)+"','"+r.get(4)+"','"+r.get(5)+"')";
+					
+					if(i != len-1)
+					{
+						update+=",";
+					}
+			
+				}
+				
+				update+=";";
+		
+				} else
+				{
+					
+					String update = "INSERT INTO " + s + "(`country`,`profit`) VALUES ";
+					int len = t.rows.size();
+					
+					for(int i = 0; i< len; i++)
+					{					
+					
+					update +="('"+r.get(0)+"','"+r.get(1)+"')";
+					
+					if(i != len-1)
+					{
+						update+=",";
+					}
+				}
+				
+				}
+			
+			executeUpdate(update);
+			
+		}
 	}
 
 }
