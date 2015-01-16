@@ -1,21 +1,21 @@
 class Memento {
-	HashMap<String, ArrayList<Table>> tables;
-	public Memento (HashMap<String, ArrayList<Table>> t) {
+	HashMap<String, Table> tables;
+	public Memento (HashMap<String, Table> t) {
 		setState (t);
 	}
-	public HashMap<String, ArrayList<Table>> getState () {
+	public HashMap<String, Table> getState () {
 		return tables;
 	}
-	public void setState(HashMap<String, ArrayList<Table>> t) {
+	public void setState(HashMap<String, Table> t) {
 		tables = t;
 	}
 }
 
 class Eminem {
-	HashMap<String, ArrayList<Table>> tables;
+	HashMap<String, Table> tables;
 	ArrayList<String> names;
 	public Eminem (ArrayList<Table> t) {
-		tables = new Hashmap<String, ArrayList<Table>>();
+		tables = new Hashmap<String, Table>();
 		names = new ArrayList<String>();
 		for (int i=0; i<t.size(); i++) {
 			tables.put(t.get(i).name, t.get(i));
