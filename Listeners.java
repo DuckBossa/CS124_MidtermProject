@@ -34,13 +34,13 @@ class AddRow implements ActionListener {
 	public void actionPerformed (ActionEvent ae) {
 		moves.add(database.createMemento()); //database is current Eminem, add current database to stack before changing it
 		if (dropdown.hasChosen("MMPack")) { //choosing the table
-			String id = idField.getText();
 			String price = priceField.getText();
 			String quantity = quantityField.getText();
 			String size = sizeField.getText();
 			String net_weight = netField.getText();
 			String kind = kindField.getText();
-			database.addRow(database.tables.get("MMPack"), new Row(new String [] {id, price, quantity, size, net_weight, kind}));
+			database.addRow(database.tables.get("MMPack"), new Row(new String [] {(id++) + "", price, quantity, size, net_weight, kind}));
+			//id is global static variable that increments by itself
 			//database is the current Eminem
 			//addRow is a method weithin Eminem class
 			//mmpack is a Table object
@@ -103,9 +103,43 @@ class ImportVersion implements ActionListener {
 	}
 }
 
+import java.io.*;
+//http://stackoverflow.com/questions/2885173/java-how-to-create-and-write-to-a-file
 class ExportVersion implements ActionListener {
 	public void actionPerformed (ActionEvent ae) {
-		//export database to file
+		Writer writer = null;
+		try {
+		    writer = new BufferedWriter(new OutputStreamWriter(
+		          new FileOutputStream("Database-LatestVersion.csv")));
+		    writer.write("ID,Price,Quantity,Size,Net Weight,Kind\n");
+		    Table t = database.tables.get(names.get(0));
+		    for (int i=0; i<t.rows.size(); i++) {
+		    	Row r = t.rows.get(i);
+		    	String info = "";
+		    	for (int k=0; k<r.columns.size(); k++) {
+		    		if (k>0) info += ",";
+		    		info+=r.columns.get(k);
+		    	}
+		    	writer.write(info + "\n");
+		    }
+
+		    writer.write("\n");
+		    writer.write("Country,Profit\n");
+		    t = database.tables.get(names.get(0));
+		    for (int i=0; i<t.rows.size(); i++) {
+		    	Row r = t.rows.get(i);
+		    	String info = "";
+		    	for (int k=0; k<r.columns.size(); k++) {
+		    		if (k>0) info += ",";
+		    		info+=r.columns.get(k);
+		    	}
+		    	writer.write(info + "\n");
+		    }
+		    
+		    writer.close();
+		} catch (IOException ex) {
+		    System.out.println ("Failure");
+		}
 	}
 }
 
