@@ -33,14 +33,14 @@ class ExportButton implements ActionListener {
 class AddRow implements ActionListener {
 	public void actionPerformed (ActionEvent ae) {
 		moves.add(database.createMemento()); //database is current Eminem, add current database to stack before changing it
-		if (dropdown.hasChosen("MM Pack")) { //choosing the table
+		if (dropdown.hasChosen("MMPack")) { //choosing the table
 			String id = idField.getText();
 			String price = priceField.getText();
 			String quantity = quantityField.getText();
 			String size = sizeField.getText();
 			String net_weight = netField.getText();
 			String kind = kindField.getText();
-			database.addRow(mmpack, new Row(new String [] {id, price, quantity, size, net_weight, kind}));
+			database.addRow(database.tables.get("MMPack"), new Row(new String [] {id, price, quantity, size, net_weight, kind}));
 			//database is the current Eminem
 			//addRow is a method weithin Eminem class
 			//mmpack is a Table object
@@ -49,7 +49,7 @@ class AddRow implements ActionListener {
 		else if (dropdown.hasChosen("Sales")) {
 			String country = countryField.getText();
 			String profit = profitField.getText();
-			database.addRow(sales, new Row(new String [] {country, profit}));
+			database.addRow(database.tables.get("Sales"), new Row(new String [] {country, profit}));
 			//database is the current Eminem
 			//addRow is a method weithin Eminem class
 			//sales is a Table object
@@ -62,14 +62,14 @@ class AddRow implements ActionListener {
 class EditRow implements ActionListener {
 	public void actionPerformed (ActionEvent ae) {
 		moves.add(database.createMemento()); //add current database to stack before changing it
-		if (dropdown.hasChosen("MM Pack")) { //choosing the table
+		if (dropdown.hasChosen("MMPack")) { //choosing the table
 			String id = idField.getText();
 			String price = priceField.getText();
 			String quantity = quantityField.getText();
 			String size = sizeField.getText();
 			String net_weight = netField.getText();
 			String kind = kindField.getText();
-			database.editRow(database.tables.get("MM Pack"), new Row(new String[]{id, price, quantity, size, net_weight, kind}));
+			database.editRow(database.tables.get("MMPack"), new Row(new String[]{id, price, quantity, size, net_weight, kind}));
 		}
 		else if (dropdown.hasChosen("Sales")) {
 			String country = countryField.getText();
@@ -83,9 +83,9 @@ class EditRow implements ActionListener {
 class DeleteRow implements ActionListener {
 	public void actionPerformed (ActionEvent ae) {
 		moves.add(database.createMemento()); //add current database to stack before changing it
-		if (dropdown.hasChosen("MM Pack")) { //choosing the table
+		if (dropdown.hasChosen("MMPack")) { //choosing the table
 			String id = idField.getText();
-			database.deleteRow(database.tables.get("MM Pack"), id);
+			database.deleteRow(database.tables.get("MMPack"), id);
 		}
 		else if (dropdown.hasChosen("Sales")) {
 			String country = countryField.getText();
