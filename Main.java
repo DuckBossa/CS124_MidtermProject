@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.DefaultTableModel;
 
-public class Main extends JPanel {
+public class Main extends JPanel{
 	private JScrollPane sp1;
 	private JScrollPane sp2;
     private JButton add;
@@ -32,13 +32,17 @@ public class Main extends JPanel {
         sp1 = new JScrollPane(db1);
         sp2 = new JScrollPane(db2);
         add = new JButton ("Add");
+        add.addActionListener(new AddButton());
         edit = new JButton ("Edit");
+        edit.addActionListener(new EditButton());
         del = new JButton ("Delete");
+        del.addActionListener(new DeleteButton());
         imp = new JButton ("Import ");
+        imp.addActionListener(new ImportButton());
         save = new JButton ("Save Changes");
         undo = new JButton ("Undo");
         exp = new JButton ("Export");
-
+        exp.addActionListener(new ExportButton());
 
 
         undo.setEnabled (false);
@@ -75,4 +79,35 @@ public class Main extends JPanel {
         frame.pack();
         frame.setVisible (true);
     }
+
+
+    class AddButton implements ActionListener {
+		public void actionPerformed (ActionEvent ae) {
+		//open GUI Window
+		}
+	}
+
+	class EditButton implements ActionListener {
+		public void actionPerformed (ActionEvent ae) {
+		//open GUI Window
+		}
+	}
+	class DeleteButton implements ActionListener {
+		public void actionPerformed (ActionEvent ae) {
+		//open GUI Window
+		}
+	}
+
+	class ImportButton implements ActionListener {
+		public void actionPerformed (ActionEvent ae) {
+		//open GUI Window
+		}
+	}
+
+	class ExportButton implements ActionListener {
+		public void actionPerformed (ActionEvent ae) {
+		//open GUI Window
+		}
+	}
+
 }
