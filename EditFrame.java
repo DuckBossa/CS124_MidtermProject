@@ -4,55 +4,32 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.DefaultTableModel;
 
-public class AddFrame extends JFrame{
-	private JButton enter;
-	private	JComboBox tableJCB;
+public class EditFrame extends JFrame{
+	private JButton edit;
+	//private Eminem database;
 	private JPanel dbSet;
-	private Eminem database;
-	private Main window;
-	
-	public JTextField countryField;
-	public JTextField profitField;
-	public JTextField priceField;
-	public JTextField quantityField;
-	public JTextField netField;
-	public JTextField kindField;
-	public JComboBox sizeField;
-	public JLabel idField;
-	public String table;
-	
-	public AddFrame( Eminem database, Main window ){
-		this.database = database;
-		this.window = window;
-		dbSet = new TableOneAdd();
-		final String[] choices = {"MMPack","Sales"};
-		enter = new JButton("Enter");
-		tableJCB = new JComboBox(choices);
-		tableJCB.addActionListener(new ActionListener(){
+	public EditFrame(boolean ifDB1){ // add here the database + the specific row to be edited
+		edit = new JButton("Edit");
+		edit.addActionListener(new ActionListener(){ // Change this to actual Listener
 			public void actionPerformed(ActionEvent e){
-				remove(dbSet);
-				String temp = (String) tableJCB.getSelectedItem();
-				table = temp;
-				if(temp.equals(choices[0])){
-					dbSet = new TableOneAdd();
-				}
-				else{
-					dbSet = new TableTwoAdd();
-				}
-				add(dbSet,BorderLayout.CENTER);
-				dbSet.repaint();
-				dbSet.revalidate();
+				System.out.println("Edit Code Here");
 			}
 		});
-		
-		enter.addActionListener(new AddRow());
+		//this.database = database;
+
+		if(ifDB1){
+			dbSet = new TableOneAdd();
+		}
+		else{
+			dbSet = new TableTwoAdd();
+		}
+
 		setSize (new Dimension (261, 300));
 		setResizable(false);
-		setDefaultCloseOperation (JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
-		add(enter,BorderLayout.SOUTH);
-		add(dbSet,BorderLayout.CENTER);//default db1
-		add(tableJCB,BorderLayout.NORTH);
+		add(edit,BorderLayout.SOUTH);
+		add(dbSet,BorderLayout.CENTER);
 	}
 
 	class TableOneAdd extends JPanel {
@@ -61,6 +38,12 @@ public class AddFrame extends JFrame{
 	    private JLabel sizeLabel;
 	    private JLabel kindLabel;
 	    private JLabel netLabel;
+	    public JTextField priceField;
+	    public JTextField quantityField;
+	    public JTextField netField;
+	    public JTextField kindField;
+	    public JComboBox sizeField;
+	    public JLabel idField;
 	    private JLabel idJLabel;
 
 	    public TableOneAdd() {
@@ -113,12 +96,15 @@ public class AddFrame extends JFrame{
 	class TableTwoAdd extends JPanel {
 	    private JLabel countryLabel;
 	    private JLabel profitLabel;
+	    public JTextField countryField;
+	    public JTextField profitField;
 	    public TableTwoAdd() {
 	        countryLabel = new JLabel ("Country:");
 	        countryField = new JTextField (5);
 	        profitLabel = new JLabel ("Profit:");
 	        profitField = new JTextField (5);
-
+	        //set text
+	        countryField.setEditable(false);
 	        setPreferredSize (new Dimension (261, 205));
 	        setLayout (null);
 
@@ -134,23 +120,5 @@ public class AddFrame extends JFrame{
 	    }
 	}
 
-	class AddRow implements ActionListener {
-		public void actionPerformed (ActionEvent ae) {
-			window.addMove(database.createMemento());
-			if(table.equals("MMPack")) {
-				String price = priceField.getText();
-				String quantity = quantityField.getText();
-				String size = (String)sizeField.getSelectedItem();
-				String net_weight = netField.getText();
-				String kind = kindField.getText();
-				database.addRow(database.tables.get("MMPack"), new Row(new String [] {price, quantity, size, net_weight, kind}));
-			}
-			else if (table.equals("Sales")) {
-				String country = countryField.getText();
-				String profit = profitField.getText();
-				database.addRow(database.tables.get("Sales"), new Row(new String [] {country, profit}));
-			}
-			window.showInfo(database);
-		}
-	}
+
 }
