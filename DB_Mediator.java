@@ -8,7 +8,7 @@ public class DB_Mediator {
 	
 	public DB_Mediator()
 	{
-		establishConnection("root", "", "MM");
+		establishConnection("root", "win7saw", "MM");
 	}
 	
 	public ResultSet search(String query)
