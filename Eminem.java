@@ -34,7 +34,7 @@ public class Eminem {
 	}
 	
 	public Memento createMemento () {
-		Memento version = new Memento (tables);
+		Memento version = new Memento (tables.get("MMPack"), tables.get("Sales"));
 		return version;
 	}
 	
