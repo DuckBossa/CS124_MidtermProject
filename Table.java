@@ -1,6 +1,7 @@
 import java.util.*;
+import java.io.*;
 
-public class Table {
+public class Table implements Serializable{
 
 	ArrayList<Row> rows;
 	String name;
@@ -13,7 +14,16 @@ public class Table {
 	}
 	
 	public void addRow (Row r) {
-		rows.add(r);
+		if (name.equals("MMPack")) {
+			String cols [] = new String [r.columns.size()+1];
+			int lastID = Integer.parseInt(rows.get(rows.size()-1).columns.get(0));
+			cols[0] = (lastID+1) + "";
+			for (int i=0; i<r.columns.size(); i++)
+				cols[i+1] = r.columns.get(i);
+			rows.add(new Row(cols));
+		}
+		else
+			rows.add(r);
 	}
 	
 	public void editRow (Row r) {
@@ -31,7 +41,7 @@ public class Table {
 		for (int i=0; i<rows.size(); i++) {
 			Row toCheck = rows.get(i);
 			if (n.equals(toCheck.columns.get(0))) {
-				rows.set(i, null);
+				rows.remove(i);
 				break;
 			}
 		}
