@@ -1,6 +1,7 @@
 import java.util.*;
+import java.io.*;
 
-public class Row { 
+public class Row implements Serializable{ 
 
 	ArrayList<String> columns;
 	
