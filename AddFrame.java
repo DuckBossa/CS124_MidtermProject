@@ -24,12 +24,14 @@ public class AddFrame extends JFrame{
 	public AddFrame( Eminem database, Main window ){
 		this.database = database;
 		this.window = window;
+		table = "MMPack";
 		dbSet = new TableOneAdd();
 		final String[] choices = {"MMPack","Sales"};
 		enter = new JButton("Enter");
 		tableJCB = new JComboBox(choices);
 		tableJCB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+
 				remove(dbSet);
 				String temp = (String) tableJCB.getSelectedItem();
 				table = temp;
