@@ -2,19 +2,27 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import java.util.*;
 
 
 public class ImportFrame extends JFrame {
     private JButton importB;
     private JButton cancel;
-    private JComboBox importList;
+    public JComboBox importList;
     private JPanel panel;
-    public ImportFrame() {
-        //construct preComponents
-        String[] importListItems = {"Item 1", "Item 2", "Item 3"};//needs to be replaced with names of the Serialized Memento Object
+	private Eminem database;
+	private Main window;
+	private ArrayList<Memento> versions;
+    public ImportFrame(Eminem database, Main window) {
+		this.database = database;
+		this.window = window;
+		versions = window.getVersions();
+        String[] importListItems = new String [versions.size()];
+		for (int i=0; i<importListItems.length; i++)
+			importListItems[i] = "Version " + (i+1);
         panel = new JPanel();
-        //construct components
         importB = new JButton ("Import");
+		importB.addActionListener(new ImportVersion());
         cancel = new JButton ("Cancel");
         cancel.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -26,21 +34,38 @@ public class ImportFrame extends JFrame {
         //adjust size and set layout
         panel.setPreferredSize(new Dimension (375, 100));
         panel.setLayout (null);
+		
+		JLabel nothing = new JLabel ("No Previous Versions Found");
 
         //add components
-        panel.add(importB);
-        panel.add(cancel);
-        panel.add(importList);
+		panel.add(cancel);
+		panel.add(importB);
+		if (importListItems.length>0) {
+			panel.add(importList);
+		}
+		else {
+			importB.setEnabled(false);
+			panel.add(nothing);
+		}
 
         //set component bounds (only needed by Absolute Positioning)
         importB.setBounds (70, 60, 100, 25);
         cancel.setBounds (190, 60, 100, 25);
         importList.setBounds (65, 20, 240, 30);
+		nothing.setBounds(65,20,240,30);
 
-        setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation (JFrame.HIDE_ON_CLOSE);
         add(panel);
         pack();
-        setVisible(true);
     }
+	
+	class ImportVersion implements ActionListener {
+		public void actionPerformed (ActionEvent ae) {
+			database.setMemento(versions.get(importList.getSelectedIndex()));
+			window.showInfo(database);
+			window.emptyStack();
+			dispose();
+		}
+	}
 
 }
