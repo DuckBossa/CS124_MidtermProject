@@ -122,9 +122,7 @@ public class Main extends JPanel {
 			}
 			ois.close();
 			System.out.println("read versions");
-		}catch(Exception ex){
-			ex.printStackTrace();
-		} 
+		}catch(Exception ex){} 
 	}
 		
 	public void showInfo (Eminem e) {
@@ -164,9 +162,7 @@ public class Main extends JPanel {
 					oos.writeObject(versions.get(i));
 				oos.close();
 				System.out.println("saved versions");
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
+			} catch (Exception ex) {}
 		}
 		public void windowClosed(WindowEvent e) {}
 		public void windowOpened(WindowEvent e) {}
